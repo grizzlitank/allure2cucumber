@@ -6,6 +6,10 @@ import io.restassured.specification.RequestSpecification;
 import org.json.JSONException;
 import org.testng.annotations.Test;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 public class RestAssuredTestArticle {
 
     @Test(description = "GET")
@@ -21,7 +25,16 @@ public class RestAssuredTestArticle {
         RestAssured.baseURI = "https://httpbin.org/image";
         RequestSpecification httpRequest = RestAssured.given();
         Response response = httpRequest.get("/png");
-        System.out.println("Response Body is =>  " + response.asString());
+        byte data[] = response.asByteArray();
+        File yourFile = new File("D:/chrusha.png");
+        try {
+            yourFile.createNewFile();
+            FileOutputStream out = new FileOutputStream(yourFile, false);
+            out.write(data);
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
